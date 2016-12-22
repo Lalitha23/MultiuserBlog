@@ -9,3 +9,6 @@ Owner of the post cannot like their own posts and cannot edit/delete posts/comme
 * Install **Google App Engine**
 * Git clone my project to your local repository
 * Follow these steps to run this project locally: https://storage.googleapis.com/supplemental_media/udacityu/48403788/Windows%20Installation%20Guide%20for%20App%20Engine.pdf
+
+#####Note:
+My blog is up and running here: https://my-blog-153305-dot-my-blog-153305.appspot.com/blog
