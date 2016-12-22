@@ -1,0 +1,279 @@
+a {
+    text-decoration: none;
+}
+
+html {
+    display: block;
+    width: 100%;
+    height:100%;
+}
+
+body {
+    padding: 0;
+    background: #202020;
+    color: #5D6063;
+    max-width: 100%;
+    font: 40px 'Trirong', sans-serif;
+    line-height: 1.42em;
+}
+.wrapper {
+    height: 100%;
+    width: 100%;
+}
+.btn:hover {
+    background-color: #a15500;
+}
+
+.btn {
+    background-color: buttonface;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: .4em;
+    color: #000000;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px
+}
+
+.btn-block {
+    display: inline-block;
+    max-width: 50px;
+}
+
+p {
+    color: #82868A;
+    text-decoration: none;
+}
+
+h2 {
+    color: #19BDFF;
+    text-decoration: none;
+    margin: 0;
+}
+
+label {
+    max-width: 200px;
+    margin-bottom: 5px;
+}
+
+.header-row {
+    display: block;
+    text-align: center;
+    height: auto;
+    width: 100%;
+    background: #2a4d6e;
+}
+
+.content {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+.nav {
+    position: relative;
+    font-family: "Press Start 2P", cursive;
+    border-bottom: 1px solid black;
+    font-size: .5em;
+    border-color: #11385d;
+    background-color: #04294C;
+    vertical-align: text-top;
+}
+
+.nav ul {
+    margin: 0;
+    text-align: left;
+    padding: 0;
+    height: auto;
+}
+
+.nav li {
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+    margin: 5px 5px 5px 0;
+}
+
+.nav a {
+    padding: 3px 12px;
+    text-decoration: none;
+    color: #999;
+    line-height: 1.42em;
+}
+
+.nav a:hover {
+    color: #000;
+}
+
+.nav .current a {
+    background: #a15500;
+    color: #fff;
+}
+.post-meta {
+    display: block;
+    line-height: .35em;
+    margin-top: 0;
+    font-size: .4em;
+    color: #ee7e00;
+}
+.comment-count {
+    display: block;
+    line-height: .35em;
+    margin-top: 0;
+    font-size: .5em;
+    color: #ee7e00;
+}
+.main-title {
+    color: #19BDFF;
+    font-family: "Press Start 2P";
+    font-size: .75em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+}
+@media only screen and (min-width: 601px) {
+    p.content {
+    font-size: 1em;
+}
+    .post-title {
+        font-size: .8em;
+    }
+}
+@media only screen and (max-width: 600px) {
+/* Menu code base from http://koen.kivits.com/articles/pure-css-menu/
+with alterations to work on this page. */
+    .onclick-menu {
+        position: relative;
+        display: inline-block;
+    }
+    .onclick-menu:before {
+        content: url(/images/menu-icon.png);
+    }
+    a {
+        text-decoration: none;
+    }
+    ul {
+        list-style: none;
+        background-color: #04294C;
+    }
+    a.button {
+        position: relative;
+        text-align: center;
+        font-size: 1.4em;
+        text-decoration: none;
+        color: white;
+        display: block;
+        border-color: #11385d;
+        background-color: #04294C;
+    }
+    a:hover {
+        color: #FFF;
+    }
+    .onclick-menu:focus {
+        pointer-events: none;
+    }
+    .onclick-menu:focus .onclick-menu-content {
+        opacity: 1;
+        visibility: visible;
+
+        pointer-events: auto;
+    }
+    .onclick-menu-content {
+        padding: 0;
+        position: absolute;
+        z-index: 1;
+
+        opacity: 0;
+        visibility: hidden;
+        transition: visibility 0.5s;
+    }
+    .main-title {
+        font-size: 20px;
+    }
+}
+.error {
+    color: red;
+    font-size: .6em;
+    display: inline;
+    width: auto;
+}
+.comment-head {
+    display: inline;
+}
+.comment-text {
+    color: #00aaee;
+}
+
+
+form {
+    display: block;
+    margin-top: 0;
+}
+textarea {
+    float: left;
+    width: 400px;
+    height: 100px;
+    font-size: .4em;
+}
+input {
+    font-size: .4em;
+    line-height: .2em;
+    float: left;
+}
+td {
+    text-align: left;
+}
+tr {
+    margin-bottom: 5px;
+    line-height: .45em;a
+}
+label {
+    font-size: .5em;
+    color: #d3ffce;
+    text-align: right;
+    width: auto;
+}
+.comment-content {
+    width: 400px;
+    height: 100px;
+}
+p, h1 {
+    color: #d3ffce;
+    font-size: .9em;
+    margin-bottom: 0;
+}
+.post-title {
+    font-size: .8em;
+    font-weight: bold;
+}
+.post-content{
+    margin-left: 10px;
+    margin-right: auto;
+    font-size: .5em;
+    line-height: .75em;
+}
+input.btn {
+    margin-top: 5px;
+    float: left;
+    width: auto;
+}
+p.content {
+    margin-top: 10px;
+    line-height: normal;
+    font-size: .6em;
+    margin-left:0;
+    margin-bottom:0;
+}

@@ -1,0 +1,33 @@
+{% extends "blog.html" %} {% block content %}
+<h1>Signup</h1>
+<form method="POST">
+	<table>
+		<tr>
+			<td><label for="username">Username</label></td>
+			<td><input type="text" name="username" value="{{username}}" required></td>
+			<td>{{error_username}}</td>
+		</tr>
+		<tr>
+			<td><label for="password">Password</label></td>
+			<td><input type="password" name="password" value="" required></td>
+			<td>{{error_password}}</td>
+		</tr>
+		<tr>
+			<td><label for="verify">Verify Password</label></td>
+			<td><input type="password" name="verify" value="" required></td>
+			<td>{{error_verify}}</td>
+		</tr>
+
+		<tr>
+			<td><label for="email">Email (Optional)</label></td>
+			<td><input type="text" name="email" id="email" value=""></td>
+		</tr>
+		<tr>
+			<td><input type="submit" class="btn" value="Signup"></td>
+		</tr>
+	</table>
+</form>
+<hr>
+<p class='content'> Already registered?</p>
+
+<a class="btn" href="/login">Login</a> {% endblock %}
