@@ -143,6 +143,7 @@ class Post(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
     user = db.ReferenceProperty(User, collection_name='user_posts')
+    author = db.StringProperty(required=True)
 
     def render(self):
         self._render_text = self.content.replace('\n', '<br>')
@@ -188,6 +189,7 @@ class Comment(db.Model):
     user = db.ReferenceProperty(User, required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     text = db.TextProperty(required=True)
+    author = db.StringProperty(required=True)
 
     @classmethod
     def count_by_post_id(cls, post_id):
@@ -318,12 +320,14 @@ class NewPost(BlogHandler):
         subject = self.request.get("subject")
         content = self.request.get("content")
         user_id = User.by_name(self.user.name)
+        author = self.user.name
 
         if subject and content:
             post = Post(
                 parent=post_key(),
                 subject=subject,
                 content=content,
+                author=author,
                 user=user_id)
             post.put()
             self.redirect('/blog/%s' % str(post.key().id()))
@@ -335,7 +339,7 @@ class NewPost(BlogHandler):
                 content=content,
                 post_error=post_error)
 
-
+'''
 def is_post(function):
     @wraps(function)
     def wrapper(self, post_id):
@@ -347,11 +351,13 @@ def is_post(function):
             self.error(404)
             return
     return wrapper
-
+'''
 
 class PostPage(BlogHandler):
-    @is_post
-    def get(self, post_id, post):
+    #@is_post
+    def get(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=post_key())
+        post = db.get(key)
 
         likes = Like.by_post_id(post)
         unlikes = Unlike.by_post_id(post)
@@ -366,8 +372,11 @@ class PostPage(BlogHandler):
             comments=comments,
             comment_count=comment_count)
 
-    @is_post
-    def post(self, post_id, post):
+    #@is_post
+    def post(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=post_key())
+        post = db.get(key)
+        
         user_id = User.by_name(self.user.name)
         comment_count = Comment.count_by_post_id(post)
         comments = Comment.all_by_post_id(post)
@@ -376,8 +385,12 @@ class PostPage(BlogHandler):
         liked = Like.check_like(post, user_id)
         unliked = Unlike.check_unlike(post, user_id)
 
+        if not post:
+            self.error(404)
+            return
+
         if self.user:
-            if self.request.get("like"):
+            if self.request.get("like") and post.author != self.user.name:
                 if liked == 0:
                     like = Like(
                         post=post, user=user_id)
@@ -395,7 +408,7 @@ class PostPage(BlogHandler):
                         comment_count=comment_count,
                         comments=comments)
 
-            elif self.request.get("unlike"):
+            elif self.request.get("unlike") and post.author != self.user.name:
                 if unliked == 0:
                     ul = Unlike(
                         post=post, user=user_id)
@@ -416,7 +429,8 @@ class PostPage(BlogHandler):
                 comment_text = self.request.get("comment_text")
                 if comment_text:
                     comment = Comment(
-                        post=post, user=user_id, text=comment_text)
+                        post=post, user=user_id,
+                        author=self.user.name, text=comment_text)
                     comment.put()
                     time.sleep(0.1)
                     self.redirect('/blog/%s' % str(post.key().id()))
@@ -432,7 +446,7 @@ class PostPage(BlogHandler):
                         comment_error=comment_error)
             elif self.request.get("edit"):
                 self.redirect('/blog/editpost/%s' % str(post.key().id()))
-            elif self.request.get("delete"):
+            elif self.request.get("delete") and post.author == self.user.name:
                 db.delete(post.key())
                 time.sleep(0.1)
                 self.redirect('/')
@@ -441,15 +455,24 @@ class PostPage(BlogHandler):
 
 
 class EditPost(BlogHandler):
-    @is_post
-    def get(self, post_id, post):
-        if self.user:
+    #@is_post
+    def get(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=post_key())
+        post = db.get(key)
+
+        if not post:
+            self.error(404)
+            return
+    
+        if self.user.name == post.author:
             self.render("editpost.html", post=post)
         else:
             self.redirect("/login")
 
-    @is_post
-    def post(self, post_id, post):
+    #@is_post
+    def post(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=post_key())
+        post = db.get(key)
         if self.request.get("update"):
 
             subject = self.request.get("subject")
@@ -477,7 +500,7 @@ class EditComment(BlogHandler):
     def get(self, post_id, comment_id):
         key = db.Key.from_path("Comment", int(comment_id))
         comment = db.get(key)
-        if comment and self.user:
+        if comment.author == self.user.name:
                 self.render("editcomment.html", comment=comment)
         else:
             error = "This comment no longer exists"
@@ -489,27 +512,28 @@ class EditComment(BlogHandler):
         key = db.Key.from_path("Comment", int(comment_id))
         comment = db.get(key)
 
-        if self.request.get("update"):
-            content = self.request.get("comment")
+        if comment.author == self.user.name:
+            if self.request.get("update"):
+                content = self.request.get("comment")
 
-            if content:
-                comment.text = content
-                comment.put()
-                time.sleep(0.1)
+                if content:
+                    comment.text = content
+                    comment.put()
+                    time.sleep(0.1)
+                    self.redirect('/blog/%s' % str(post.key().id()))
+                else:
+                    edit_error = "All fields required."
+                    self.render('editcomment.html', comment=comment,
+                    edit_error=edit_error)
+            elif self.request.get("cancel"):
                 self.redirect('/blog/%s' % str(post.key().id()))
-            else:
-                edit_error = "All fields required."
-                self.render('editcomment.html', comment=comment,
-                edit_error=edit_error)
-        elif self.request.get("cancel"):
-            self.redirect('/blog/%s' % str(post.key().id()))
 
 
 class DeleteComment(BlogHandler):
     def get(self, post_id, comment_id):
         key = db.Key.from_path("Comment", int(comment_id))
         comment = db.get(key)
-        if comment and self.user:
+        if comment.author == self.user.name:
             db.delete(key)
             self.render("deletecomment.html")
         else:
