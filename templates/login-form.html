@@ -1,19 +1,16 @@
 {% extends "blog.html" %} {% block content %}
-<h1>Login</h1>
+<h2>Login</h2>
 <form method="POST">
-    <table>
-        <tr>
-            <td><label for="username">Username</label></td>
-            <td><input type="text" name="username" value="{{username}}" required></td>
-            <tr>
-                <td><label for="password">Password</label></td>
-                <td><input type="password" name="password" value="" required></td>
-            </tr>
-            <div class="alert-danger">{{error}}</div>
-            <tr>
-                <td><input type="submit" class="btn" value="Login"></tr>
-            </td>
-    </table>
+
+    <p><label for="username">Username</label>
+            <input type="text" name="username" value="{{username}}" required>
+         
+    <p><label for="password">Password</label>
+                <input type="password" name="password" value="" required>
+           
+        <span><div class="alert-danger">{{error}}</div></span>
+           
+    <p><input type="submit" class="btn" value="Login">
 </form>
 <hr>
 <p class='content'> Not registered yet?</p>

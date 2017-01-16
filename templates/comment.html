@@ -1,0 +1,15 @@
+{% extends "blog.html" %} {% block content %}
+
+{% if user %}
+<form method="POST">
+
+    <p><label for='add-comment'>Add Comment</label>
+    <p><textarea class="comment-content" name="comment_text">{{comment_text | safe}}</textarea>
+        
+        <span><div class="error">{{comment_error}}</div></span>
+           
+    <input type="submit" class="btn" name="post" value="Post">
+    <input type="submit" class="btn" name="cancel" value="Cancel">
+
+</form>
+{% endif %} {% endblock %}

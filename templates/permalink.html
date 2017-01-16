@@ -7,17 +7,18 @@
 </div>
 {% if user %}
 <form method="POST">
-    <table>
+    
+        <input type="submit" class="btn" name="add_comment" value="Add Comment">
+
         {% if post.user.name != user.name %}
-        <tr>
-            <td><input type="submit" class="btn" name='like' value='&#128077; {{likes}} likes'></td>
-            <td><input type="submit" class="btn" name='unlike' value='&#128078; {{unlikes}} unlikes'></td>
-        </tr> {% else %}
-        <tr>
-            <td><input type="submit" class="btn" name='edit' value='&#9998; edit'></td>
-            <td><input type="submit" class="btn" name='delete' value="&#9003; delete"></td>
-        </tr> {% endif %}
-        <table>
+        
+            <input type="submit" class="btn" name='like' value='&#128077; {{likes}} likes'></td>
+            <input type="submit" class="btn" name='unlike' value='&#128078; {{unlikes}} unlikes'></td>
+         {% else %}
+        
+            <input type="submit" class="btn" name='edit' value='&#9998; edit'></td>
+            <input type="submit" class="btn" name='delete' value="&#9003; delete"></td>
+         {% endif %}
 </form>
 {% endif %}
 <br>
@@ -36,22 +37,5 @@
     <a class='btn btn-block' href="/blog/{{post.key().id()}}/deletecomment/{{comment.key().id()}}">delete</a> {% endif %}
 </div>
 {% endfor %}
-<br> {% if user %}
-<form method="POST">
-    <table>
-        <tr>
-            <td><label for='add-comment'>Add Comment</label></td>
-        </tr>
-        <tr>
-            <td><textarea class="comment-content" name="comment_text">{{comment_text | safe}}</textarea></td>
-        </tr>
-        <tr>
-            <td>
-                <div class="error">{{comment_error}}</div>
-            </td>
-        </tr>
-        <tr>
-            <td><input type="submit" class="btn" name="add_comment" value="Post"></td>
-        </tr>
-</form>
-{% endif %} {% endblock %}
+
+{% endblock %}
